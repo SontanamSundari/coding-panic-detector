@@ -50,6 +50,7 @@ public class SubmissionService {
 
             // 3️⃣ Execute code using CodeExecutionService
             String result = codeExecutionService.runSubmission(submission);
+            System.out.println("SUBMISSION RESULT = " + result);
 
             submission.setStatus(result);
 

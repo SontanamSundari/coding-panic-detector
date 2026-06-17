@@ -76,6 +76,8 @@ const loadPanicData = () => {
     setrun(String(response.data));
     loadPanicData();
     fetchPanicData();
+    console.log("RUN CODE:");
+    console.log(code);
 })
 .catch((err) => {
     console.error(err);
@@ -93,7 +95,8 @@ const loadPanicData = () => {
             code:code
         };
         console.log(submission);
-        api.post("/submissions",submission).then((res)=>{setres(res.data.status); loadPanicData();}).catch((err)=>{console.error(err);setres("Submission Failed")});
+        api.post("/submissions",submission).then((res)=>{setres(res.data.status); loadPanicData(); console.log("SUBMIT CODE:");
+console.log(code);}).catch((err)=>{console.error(err);setres("Submission Failed")});
     };
 
 
@@ -234,6 +237,25 @@ panic.score < 25
     {/* <p>
         <strong>Level:</strong> {panic.level}
     </p> */}
+    <div
+style={{
+    marginTop:"15px",
+    padding:"12px",
+    background:"#0f172a",
+    borderRadius:"8px"
+}}
+>
+    <strong>Pattern Detected</strong>
+
+    <p
+    style={{
+        color:"#60a5fa",
+        marginTop:"8px"
+    }}
+    >
+        {panic.pattern}
+    </p>
+</div>
  <p>
         <strong>Recovery Suggestion:</strong>
         <br/>

@@ -17,13 +17,27 @@ public class CodeExecutionService {
     @Autowired
     private TestCaseRepository testCaseRepository;
 
+
+
     public String runSubmission(Submission submission) {
+            System.out.println("ENTERED CODEEXECUTION RUNSUBMISSION");
+System.out.println("LANGUAGE = " + submission.getLanguage());
+System.out.println("CODE = ");
+System.out.println(submission.getCode());
         try {
             // 1️⃣ Fetch test cases for the problem
             List<TestCase> testCases = testCaseRepository.findByProblemId(submission.getProblem().getId());
-
+            System.out.println(
+        "TEST CASE COUNT = " + testCases.size());
+        if(testCases.isEmpty()){
+    return "No test cases found for this problem.";
+}
             for (TestCase tc : testCases) {
+                System.out.println("INSIDE LOOP");
+                            System.out.println("TEST CASE FOUND");
+            System.out.println(tc.getInput());
                 String result;
+
                 if (submission.getLanguage().equalsIgnoreCase("python")) {
                     result = runPythonCode(submission.getCode(), tc.getInput());
                 } else if (submission.getLanguage().equalsIgnoreCase("java")) {
@@ -32,8 +46,21 @@ public class CodeExecutionService {
                     return "Language not supported";
                 }
 
+                // ADD THESE CHECKS
+
+                if(result.startsWith("Compilation Error")){
+                    return result;
+                }
+
+                if(result.startsWith("Runtime Error")){
+                    return result;
+                }
+
                 if (!result.equals(tc.getExpectedOutput())) {
-                    return "Wrong Answer on input:\n" + tc.getInput() + "\nYour Output:\n" + result;
+                    return "Wrong Answer on input:\n"
+                            + tc.getInput()
+                            + "\nYour Output:\n"
+                            + result;
                 }
             }
             return "Accepted";

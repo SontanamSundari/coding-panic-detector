@@ -15,10 +15,16 @@ public class PanicAnalysisController {
 
     @GetMapping("/{problemId}")
     public PanicResponse getPanic(@PathVariable Long problemId){
-        int score=service.calculateScore(problemId);
-        String level=service.getlevel(score);
-        String suggestion=service.getRecovery(problemId);
-        return new PanicResponse(score, level, suggestion);
+        int score = service.calculateScore(problemId);
+        String level = service.getlevel(score);
+        String pattern = service.getPattern(problemId);
+        String suggestion =service.getRecovery(problemId);
+        return new PanicResponse(
+                score,
+                level,
+                pattern,
+                suggestion
+        );
     }
     
 }
